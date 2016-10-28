@@ -1,0 +1,42 @@
+{
+   "servers":[
+      {
+         "alias":"localhost",
+         "host":"127.0.0.1",
+         "port":"1105",
+         "runPeriodSeconds":"1",
+         "numQueryThreads":"1",
+         "queries":[
+            {
+               "obj":"fr.treeptik.jmx:type=SystemConfig",
+               "attr":[
+                  "ThreadCount"
+               ],
+               "resultAlias":"system.thread.counts",
+               "outputWriters":[
+                  {
+                     "@class" : "com.googlecode.jmxtrans.model.output.StdOutWriter",
+                     "settings" : {
+                        "debug" : true
+                     }
+                  },
+                  {
+                     "@class":"com.googlecode.jmxtrans.model.output.InfluxDbWriterFactory",
+                     "username": "root",
+              		 "password": "root",
+              		 "database": "newDB",
+                     "tags" : {
+                       "custom":"tag1",
+                       "custom2":"tag2"
+                     },
+              		 "url": "http://localhost:8086",
+              		 "resultTags":["typeName","className"],
+              		 "retentionPolicy":"default",
+              		 "writeConsistency":"ALL"
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}
